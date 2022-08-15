@@ -10,7 +10,7 @@
 //! ***next_valid_id*** to be called, which will start sending test requests to TWS (see the
 //! ***start_requests*** method in ***TestWrapper*** which is called by ***next_valid_id***).
 //!
-//! ```no_run        
+//! ```no_run
 //! use log::*;
 //! use std::thread;
 //! use std::time::Duration;
@@ -56,7 +56,7 @@
 //!
 //!    Ok(())
 //!}
-//! ```     
+//! ```
 pub mod core;
 pub mod examples;
 mod tests;

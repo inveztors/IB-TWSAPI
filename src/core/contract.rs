@@ -144,10 +144,7 @@ pub struct ContractPreamble {
     local_symbol: String,
 }
 
-pub struct ComboLegsContainer {
-
-
-}
+pub struct ComboLegsContainer {}
 //==================================================================================================
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
 pub struct Contract {

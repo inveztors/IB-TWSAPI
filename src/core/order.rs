@@ -3,13 +3,13 @@ use std::fmt::{Display, Error, Formatter};
 
 use num_derive::FromPrimitive;
 
-use serde::{Deserialize, Serialize};
-use serde::ser::{Serializer, SerializeStruct};
-use serde::de::{self, Deserializer, Visitor, SeqAccess};
 use crate::core::common::{TagValue, UNSET_DOUBLE, UNSET_INTEGER};
 use crate::core::order::AuctionStrategy::AuctionUnset;
 use crate::core::order::Origin::Customer;
 use crate::core::order_condition::{Condition, OrderConditionEnum};
+use serde::de::{self, Deserializer, SeqAccess, Visitor};
+use serde::ser::{SerializeStruct, Serializer};
+use serde::{Deserialize, Serialize};
 
 //==================================================================================================
 #[repr(i32)]
@@ -227,8 +227,7 @@ pub struct VolatilityOrder {
 }
 
 impl serde::ser::Serialize for VolatilityOrder {
-    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         // 12 is the number of fields in the struct.
         let mut state = serializer.serialize_struct("VolatilityOrder", 12)?;
         state.serialize_field("volatility", &self.volatility)?;
@@ -238,13 +237,28 @@ impl serde::ser::Serialize for VolatilityOrder {
 
         if !self.delta_neutral_order_type.is_empty() {
             state.serialize_field("delta_neutral_con_id", &self.delta_neutral_con_id)?;
-            state.serialize_field("delta_neutral_settling_firm", &self.delta_neutral_settling_firm)?;
-            state.serialize_field("delta_neutral_clearing_account", &self.delta_neutral_clearing_account)?;
-            state.serialize_field("delta_neutral_clearing_intent", &self.delta_neutral_clearing_intent)?;
+            state.serialize_field(
+                "delta_neutral_settling_firm",
+                &self.delta_neutral_settling_firm,
+            )?;
+            state.serialize_field(
+                "delta_neutral_clearing_account",
+                &self.delta_neutral_clearing_account,
+            )?;
+            state.serialize_field(
+                "delta_neutral_clearing_intent",
+                &self.delta_neutral_clearing_intent,
+            )?;
             state.serialize_field("delta_neutral_open_close", &self.delta_neutral_open_close)?;
             state.serialize_field("delta_neutral_short_sale", &self.delta_neutral_short_sale)?;
-            state.serialize_field("delta_neutral_short_sale_slot", &self.delta_neutral_short_sale_slot)?;
-            state.serialize_field("delta_neutral_designated_location", &self.delta_neutral_designated_location)?;
+            state.serialize_field(
+                "delta_neutral_short_sale_slot",
+                &self.delta_neutral_short_sale_slot,
+            )?;
+            state.serialize_field(
+                "delta_neutral_designated_location",
+                &self.delta_neutral_designated_location,
+            )?;
         } else {
             state.skip_field("delta_neutral_con_id")?;
             state.skip_field("delta_neutral_settling_firm")?;
@@ -253,7 +267,7 @@ impl serde::ser::Serialize for VolatilityOrder {
             state.skip_field("delta_neutral_open_close")?;
             state.skip_field("delta_neutral_short_sale")?;
             state.skip_field("delta_neutral_short_sale_slot")?;
-            state.skip_field("delta_neutral_designated_location")?;            
+            state.skip_field("delta_neutral_designated_location")?;
         }
 
         state.end()
@@ -263,7 +277,6 @@ impl serde::ser::Serialize for VolatilityOrder {
 //==================================================================================================
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Order {
-
     // order identifier
     pub order_id: i32,
 
@@ -369,16 +382,12 @@ pub struct Order {
     // type: float
     pub trailing_percent: f64, // type: float; TRAILLIMIT orders only
 
-
     // type: float
     pub opt_out_smart_routing: bool,
 
     // BOX exchange orders only
-
-
     pub randomize_price: bool,
     pub randomize_size: bool,
-
 
     // COMBO ORDERS ONLY
     pub basis_points: f64,
@@ -412,7 +421,6 @@ pub struct Order {
     pub hedge_param: String, // 'beta=X' value for beta hedge, 'ratio=Y' for pair hedge
 
     // IB account
-
     pub clearing_account: String,
     //True beneficiary of the order
     pub clearing_intent: String, // "" (Default), "IB", "Away", "PTA" (PostTrade)
