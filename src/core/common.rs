@@ -223,9 +223,20 @@ pub enum FaDataType {
     ALIASES = 3,
 }
 
+impl FaDataType {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::NA => "NA",
+            Self::GROUPS => "GROUPS",
+            Self::PROFILES => "PROFILES",
+            Self::ALIASES => "ALIASES",
+        }
+    }
+}
+
 impl fmt::Display for FaDataType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "Type: {}", self)
+        f.pad(&format!("FaDataType::{}", self.as_str()))
     }
 }
 
