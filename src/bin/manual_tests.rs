@@ -16,7 +16,7 @@ pub fn main() -> Result<(), IBKRApiLibError> {
     match log4rs::init_file("./log_config.yml", Default::default()) {
         Ok(_) => (),
         Err(e) => {
-            println!("Error: {}", e.to_string());
+            println!("Error: {e}");
             return Err(IBKRApiLibError::ApiError(TwsApiReportableError::new(
                 -1,
                 "-1".to_string(),
@@ -36,7 +36,7 @@ pub fn main() -> Result<(), IBKRApiLibError> {
             Ok(_) => continue,
             Err(e) => {
                 error!("{}", e.to_string());
-                break ();
+                break;
             }
         };
     }
