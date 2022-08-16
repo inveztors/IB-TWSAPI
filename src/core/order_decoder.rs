@@ -611,16 +611,16 @@ impl<'a> OrderDecoder<'a> {
             if combo_legs_count > 0 {
                 self.contract.combo_legs = vec![];
                 for _ in 0..combo_legs_count {
-                    let mut combo_leg: ComboLeg = ComboLeg::default();
-                    combo_leg.con_id = decode_i32(fields_iter)?;
-                    combo_leg.ratio = decode_f64(fields_iter)?;
-                    combo_leg.action = decode_string(fields_iter)?;
-                    combo_leg.exchange = decode_string(fields_iter)?;
-                    combo_leg.open_close =
-                        FromPrimitive::from_i32(decode_i32(fields_iter)?).unwrap();
-                    combo_leg.short_sale_slot = decode_i32(fields_iter)?;
-                    combo_leg.designated_location = decode_string(fields_iter)?;
-                    combo_leg.exempt_code = decode_i32(fields_iter)?;
+                    let combo_leg: ComboLeg = ComboLeg {
+                        con_id: decode_i32(fields_iter)?,
+                        ratio: decode_f64(fields_iter)?,
+                        action: decode_string(fields_iter)?,
+                        exchange: decode_string(fields_iter)?,
+                        open_close: FromPrimitive::from_i32(decode_i32(fields_iter)?).unwrap(),
+                        short_sale_slot: decode_i32(fields_iter)?,
+                        designated_location: decode_string(fields_iter)?,
+                        exempt_code: decode_i32(fields_iter)?,
+                    };
                     self.contract.combo_legs.push(combo_leg);
                 }
             }
@@ -629,8 +629,9 @@ impl<'a> OrderDecoder<'a> {
         if order_combo_legs_count > 0 {
             self.order.order_combo_legs = vec![];
             for _ in 0..order_combo_legs_count {
-                let mut order_combo_leg = OrderComboLeg::default();
-                order_combo_leg.price = decode_f64_show_unset(fields_iter)?;
+                let order_combo_leg = OrderComboLeg {
+                    price: decode_f64_show_unset(fields_iter)?,
+                };
                 self.order.order_combo_legs.push(order_combo_leg);
             }
         }
@@ -647,9 +648,10 @@ impl<'a> OrderDecoder<'a> {
             if smart_combo_routing_params_count > 0 {
                 self.order.smart_combo_routing_params = vec![];
                 for _ in 0..smart_combo_routing_params_count {
-                    let mut tag_value = TagValue::default();
-                    tag_value.tag = decode_string(fields_iter)?;
-                    tag_value.value = decode_string(fields_iter)?;
+                    let tag_value = TagValue {
+                        tag: decode_string(fields_iter)?,
+                        value: decode_string(fields_iter)?,
+                    };
                     self.order.smart_combo_routing_params.push(tag_value)
                 }
             }
@@ -765,9 +767,10 @@ impl<'a> OrderDecoder<'a> {
                 if algo_params_count > 0 {
                     self.order.algo_params = vec![];
                     for _ in 0..algo_params_count {
-                        let mut tag_value = TagValue::default();
-                        tag_value.tag = decode_string(fields_iter)?;
-                        tag_value.value = decode_string(fields_iter)?;
+                        let tag_value = TagValue {
+                            tag: decode_string(fields_iter)?,
+                            value: decode_string(fields_iter)?,
+                        };
                         self.order.algo_params.push(tag_value);
                     }
                 }
