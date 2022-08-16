@@ -119,8 +119,8 @@ impl Decoder {
         conn_state: Arc<Mutex<ConnStatus>>,
     ) -> Self {
         Decoder {
-            send_queue: send_queue,
-            msg_queue: msg_queue,
+            send_queue,
+            msg_queue,
             server_version,
             conn_state,
         }
@@ -358,9 +358,9 @@ impl Decoder {
         }
 
         let tick_price = ServerRspMsg::TickPrice {
-            req_id: req_id,
+            req_id,
             tick_type: FromPrimitive::from_i32(tick_type_i32).unwrap(),
-            price: price,
+            price,
             tick_attr: tick_attrib.clone(),
         };
 
@@ -380,9 +380,9 @@ impl Decoder {
 
             if size_tick_type as i32 != TickType::NotSet as i32 {
                 let tick_size = ServerRspMsg::TickSize {
-                    req_id: req_id,
+                    req_id,
                     tick_type: size_tick_type,
-                    size: size,
+                    size,
                 };
                 self.send_queue.send(tick_size).unwrap();
             }
@@ -625,7 +625,7 @@ impl Decoder {
         }
 
         let bond_contract_details = ServerRspMsg::BondContractData {
-            req_id: req_id,
+            req_id,
             contract_details: contract.clone(),
         };
 
@@ -777,7 +777,7 @@ impl Decoder {
         }
 
         let contract_details = ServerRspMsg::ContractData {
-            req_id: req_id,
+            req_id,
             contract_details: contract.clone(),
         };
 
@@ -843,7 +843,7 @@ impl Decoder {
         delta_neutral_contract.price = decode_f64(&mut fields_itr)?;
 
         let delta_neutral_validation = ServerRspMsg::DeltaNeutralValidation {
-            req_id: req_id,
+            req_id,
             delta_neutral_contract: delta_neutral_contract.clone(),
         };
 
@@ -995,7 +995,7 @@ impl Decoder {
         }
 
         let exec_details = ServerRspMsg::ExecutionData {
-            req_id: req_id,
+            req_id,
             contract: contract.clone(),
             execution: execution.clone(),
         };
@@ -1103,7 +1103,7 @@ impl Decoder {
         }
 
         let histogram_data = ServerRspMsg::HistogramData {
-            req_id: req_id,
+            req_id,
             items: histogram,
         };
 
@@ -1151,7 +1151,7 @@ impl Decoder {
             bar.bar_count = decode_i32(&mut fields_itr)?; // ver 3 field
 
             let historical_data_msg = ServerRspMsg::HistoricalData {
-                req_id: req_id,
+                req_id,
                 bar: bar.clone(),
             };
 
@@ -1159,7 +1159,7 @@ impl Decoder {
         }
 
         let historical_data_end = ServerRspMsg::HistoricalDataEnd {
-            req_id: req_id,
+            req_id,
             start: start_date.clone(),
             end: end_date.clone(),
         };
@@ -1190,7 +1190,7 @@ impl Decoder {
         bar.volume = decode_i64(&mut fields_itr)?;
 
         let historical_data_update = ServerRspMsg::HistoricalDataUpdate {
-            req_id: req_id,
+            req_id,
             bar: bar.clone(),
         };
 
@@ -1261,9 +1261,9 @@ impl Decoder {
         let done = decode_bool(&mut fields_itr)?;
 
         let historical_ticks = ServerRspMsg::HistoricalTicks {
-            req_id: req_id,
+            req_id,
             ticks: ticks.clone(),
-            done: done,
+            done,
         };
 
         self.send_queue.send(historical_ticks).unwrap();
@@ -1304,9 +1304,9 @@ impl Decoder {
         let done = decode_bool(&mut fields_itr)?;
 
         let historical_ticks_bid_ask = ServerRspMsg::HistoricalTicksBidAsk {
-            req_id: req_id,
+            req_id,
             ticks: ticks.clone(),
-            done: done,
+            done,
         };
 
         self.send_queue.send(historical_ticks_bid_ask).unwrap();
@@ -1344,9 +1344,9 @@ impl Decoder {
         let done = decode_bool(&mut fields_itr)?;
 
         let historical_ticks_last_msg = ServerRspMsg::HistoricalTicksLast {
-            req_id: req_id,
+            req_id,
             ticks: ticks.clone(),
-            done: done,
+            done,
         };
 
         self.send_queue.send(historical_ticks_last_msg).unwrap();
@@ -1436,14 +1436,14 @@ impl Decoder {
         }
 
         let update_mkt_depth_l2 = ServerRspMsg::MarketDepthL2 {
-            req_id: req_id,
-            position: position,
-            market_maker: market_maker,
-            operation: operation,
-            side: side,
-            price: price,
-            size: size,
-            is_smart_depth: is_smart_depth,
+            req_id,
+            position,
+            market_maker,
+            operation,
+            side,
+            price,
+            size,
+            is_smart_depth,
         };
 
         self.send_queue.send(update_mkt_depth_l2).unwrap();
@@ -1471,8 +1471,8 @@ impl Decoder {
         }
 
         let market_rule = ServerRspMsg::MarketRule {
-            market_rule_id: market_rule_id,
-            price_increments: price_increments,
+            market_rule_id,
+            price_increments,
         };
 
         self.send_queue.send(market_rule).unwrap();
@@ -1505,7 +1505,7 @@ impl Decoder {
         }
 
         let market_depth_xchng = ServerRspMsg::MktDepthExchanges {
-            depth_mkt_data_descriptions: depth_mkt_data_descriptions,
+            depth_mkt_data_descriptions,
         };
 
         self.send_queue.send(market_depth_xchng).unwrap();
@@ -1567,9 +1567,7 @@ impl Decoder {
             news_providers.push(provider);
         }
 
-        let news_providers = ServerRspMsg::NewsProviders {
-            news_providers: news_providers,
-        };
+        let news_providers = ServerRspMsg::NewsProviders { news_providers };
 
         self.send_queue.send(news_providers).unwrap();
 
@@ -1621,9 +1619,9 @@ impl Decoder {
         order_decoder.decode_open(&mut fields_itr)?;
         let open_order_msg = ServerRspMsg::OpenOrder {
             order_id: order.order_id,
-            contract: contract,
-            order: order,
-            order_state: order_state,
+            contract,
+            order,
+            order_state,
         };
 
         self.send_queue.send(open_order_msg).unwrap();
@@ -1980,7 +1978,7 @@ impl Decoder {
         bar.wap = decode_f64(&mut fields_itr)?;
         bar.count = decode_i32(&mut fields_itr)?;
 
-        let real_time_bars = ServerRspMsg::RealTimeBars { req_id, bar: bar };
+        let real_time_bars = ServerRspMsg::RealTimeBars { req_id, bar };
 
         self.send_queue.send(real_time_bars).unwrap();
         Ok(())
