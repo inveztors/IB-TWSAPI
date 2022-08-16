@@ -116,11 +116,7 @@ impl EClient {
         let streamer = TcpStreamer::new(tcp_stream);
         self.set_streamer(Option::from(Box::new(streamer.clone()) as Box<dyn Streamer>));
         let (tx, rx) = channel::<String>();
-        let mut reader = Reader::new(
-            Box::new(streamer.clone()),
-            tx.clone(),
-            self.disconnect_requested.clone(),
-        );
+        let mut reader = Reader::new(Box::new(streamer), tx, self.disconnect_requested.clone());
 
         let mut fields: Vec<String> = Vec::new();
 
@@ -2621,7 +2617,7 @@ impl EClient {
     /// underlying. The contract details will be received via the contractDetails()
     /// function on the EWrapper.
     ///
-    ///    
+    ///
     /// # Arguments
     /// * req_id - The ID of the data request. Ensures that responses are
     ///            matched to requests if several requests are in process.

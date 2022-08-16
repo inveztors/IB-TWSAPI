@@ -361,7 +361,7 @@ impl Decoder {
             req_id,
             tick_type: FromPrimitive::from_i32(tick_type_i32).unwrap(),
             price,
-            tick_attr: tick_attrib.clone(),
+            tick_attr: tick_attrib,
         };
 
         self.send_queue.send(tick_price.clone()).unwrap();
@@ -651,7 +651,7 @@ impl Decoder {
         commission_report.yield_redemption_date = decode_string(&mut fields_itr)?;
 
         let commission_report = ServerRspMsg::CommissionReport {
-            commission_report: commission_report.clone(),
+            commission_report: commission_report,
         };
 
         self.send_queue.send(commission_report).unwrap();
@@ -844,7 +844,7 @@ impl Decoder {
 
         let delta_neutral_validation = ServerRspMsg::DeltaNeutralValidation {
             req_id,
-            delta_neutral_contract: delta_neutral_contract.clone(),
+            delta_neutral_contract: delta_neutral_contract,
         };
 
         self.send_queue.send(delta_neutral_validation).unwrap();
@@ -996,8 +996,8 @@ impl Decoder {
 
         let exec_details = ServerRspMsg::ExecutionData {
             req_id,
-            contract: contract.clone(),
-            execution: execution.clone(),
+            contract: contract,
+            execution: execution,
         };
 
         self.send_queue.send(exec_details).unwrap();
@@ -1160,8 +1160,8 @@ impl Decoder {
 
         let historical_data_end = ServerRspMsg::HistoricalDataEnd {
             req_id,
-            start: start_date.clone(),
-            end: end_date.clone(),
+            start: start_date,
+            end: end_date,
         };
 
         // send end of dataset marker
@@ -1189,10 +1189,7 @@ impl Decoder {
         bar.average = decode_f64(&mut fields_itr)?;
         bar.volume = decode_i64(&mut fields_itr)?;
 
-        let historical_data_update = ServerRspMsg::HistoricalDataUpdate {
-            req_id,
-            bar: bar.clone(),
-        };
+        let historical_data_update = ServerRspMsg::HistoricalDataUpdate { req_id, bar: bar };
 
         self.send_queue.send(historical_data_update).unwrap();
 
@@ -2684,8 +2681,7 @@ impl Decoder {
                                 TwsError::NotConnected.message(),
                                 val.len(),
                                 val
-                            )
-                            .to_string(),
+                            ),
                         };
 
                         self.send_queue.send(error_msg).unwrap();
