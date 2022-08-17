@@ -350,7 +350,9 @@ impl EClient {
             return Err(err);
         }
 
-        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS && "" != contract.trading_class {
+        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS
+            && !contract.trading_class.is_empty()
+        {
             let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                 req_id,
                 TwsError::UpdateTws.code().to_string(),
@@ -742,7 +744,9 @@ impl EClient {
             return Err(err);
         }
 
-        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS && "" != contract.trading_class {
+        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS
+            && !contract.trading_class.is_empty()
+        {
             let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                 req_id,
                 TwsError::UpdateTws.code().to_string(),
@@ -838,7 +842,7 @@ impl EClient {
         }
 
         if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if "" != contract.trading_class {
+            if !contract.trading_class.is_empty() {
                 let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                     req_id,
                     TwsError::UpdateTws.code().to_string(),
@@ -1367,7 +1371,7 @@ impl EClient {
             return Err(err);
         }
 
-        if self.server_version() < MIN_SERVER_VER_ALGO_ID && order.algo_id != "" {
+        if self.server_version() < MIN_SERVER_VER_ALGO_ID && !order.algo_id.is_empty() {
             let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                 order_id,
                 TwsError::UpdateTws.code().to_string(),
@@ -1745,7 +1749,7 @@ impl EClient {
         }
 
         if self.server_version() >= MIN_SERVER_VER_DELTA_NEUTRAL_OPEN_CLOSE
-            && order.delta_neutral_order_type != ""
+            && !order.delta_neutral_order_type.is_empty()
         {
             msg.push_str(&make_field(&order.delta_neutral_open_close)?);
             msg.push_str(&make_field(&order.delta_neutral_short_sale)?);
@@ -2630,7 +2634,7 @@ impl EClient {
         self.check_connected(req_id)?;
 
         if self.server_version() < MIN_SERVER_VER_SEC_ID_TYPE {
-            if contract.sec_id_type != "" || contract.sec_id != "" {
+            if !contract.sec_id_type.is_empty() || !contract.sec_id.is_empty() {
                 let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                     req_id,
                     TwsError::UpdateTws.code().to_string(),
@@ -2646,7 +2650,7 @@ impl EClient {
         }
 
         if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if contract.trading_class != "" {
+            if !contract.trading_class.is_empty() {
                 let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                     req_id,
                     TwsError::UpdateTws.code().to_string(),
@@ -2662,7 +2666,7 @@ impl EClient {
         }
 
         if self.server_version() < MIN_SERVER_VER_LINKING {
-            if contract.primary_exchange != "" {
+            if !contract.primary_exchange.is_empty() {
                 let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                     req_id,
                     TwsError::UpdateTws.code().to_string(),
@@ -2702,7 +2706,7 @@ impl EClient {
             msg.push_str(&make_field(&contract.exchange)?);
             msg.push_str(&make_field(&contract.primary_exchange)?);
         } else if self.server_version() >= MIN_SERVER_VER_LINKING {
-            if contract.primary_exchange != ""
+            if !contract.primary_exchange.is_empty()
                 && (contract.exchange == "BEST" || contract.exchange == "SMART")
             {
                 msg.push_str(&make_field(&format!(
@@ -2790,7 +2794,7 @@ impl EClient {
         self.check_connected(NO_VALID_ID)?;
 
         if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if &contract.trading_class != "" || *&contract.con_id > 0 {
+            if !contract.trading_class.is_empty() || *&contract.con_id > 0 {
                 let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                     req_id,
                     TwsError::UpdateTws.code().to_string(),
@@ -2820,7 +2824,7 @@ impl EClient {
         }
 
         if self.server_version() < MIN_SERVER_VER_MKT_DEPTH_PRIM_EXCHANGE
-            && contract.primary_exchange != ""
+            && !contract.primary_exchange.is_empty()
         {
             let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                 req_id,
@@ -3114,7 +3118,7 @@ impl EClient {
         self.check_connected(NO_VALID_ID)?;
 
         if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if &contract.trading_class != "" || contract.con_id > 0 {
+            if !contract.trading_class.is_empty() || contract.con_id > 0 {
                 let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                     req_id,
                     TwsError::UpdateTws.code().to_string(),

@@ -978,7 +978,7 @@ impl Decoder {
             execution.ev_rule = decode_string(&mut fields_itr)?;
 
             let tmp_ev_mult = (&mut fields_itr).peekable().peek().unwrap().as_str();
-            if tmp_ev_mult != "" {
+            if !tmp_ev_mult.is_empty() {
                 execution.ev_multiplier = decode_f64(&mut fields_itr)?;
             } else {
                 execution.ev_multiplier = 1.0;
@@ -2658,7 +2658,7 @@ impl Decoder {
         is_bond: bool,
         read_date: &str,
     ) -> Result<(), IBKRApiLibError> {
-        if read_date != "" {
+        if !read_date.is_empty() {
             let splitted = read_date.split_whitespace().collect::<Vec<&str>>();
             if splitted.len() > 0 {
                 if is_bond {
