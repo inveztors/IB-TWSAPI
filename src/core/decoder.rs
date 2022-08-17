@@ -1131,29 +1131,34 @@ impl Decoder {
         let bar_count = decode_i32(&mut fields_itr)?;
 
         for _ in 0..bar_count {
-            let mut bar = BarData::default();
-            bar.date = decode_string(&mut fields_itr)?;
-            bar.open = decode_f64(&mut fields_itr)?;
-            bar.high = decode_f64(&mut fields_itr)?;
-            bar.low = decode_f64(&mut fields_itr)?;
-            bar.close = decode_f64(&mut fields_itr)?;
-            bar.volume = if self.server_version < MIN_SERVER_VER_SYNT_REALTIME_BARS {
+            let date = decode_string(&mut fields_itr)?;
+            let open = decode_f64(&mut fields_itr)?;
+            let high = decode_f64(&mut fields_itr)?;
+            let low = decode_f64(&mut fields_itr)?;
+            let close = decode_f64(&mut fields_itr)?;
+            let volume = if self.server_version < MIN_SERVER_VER_SYNT_REALTIME_BARS {
                 decode_i32(&mut fields_itr)? as i64
             } else {
                 decode_i64(&mut fields_itr)?
             };
-            bar.average = decode_f64(&mut fields_itr)?;
+            let average = decode_f64(&mut fields_itr)?;
 
             if self.server_version < MIN_SERVER_VER_SYNT_REALTIME_BARS {
                 decode_string(&mut fields_itr)?; //has_gaps
             }
-
-            bar.bar_count = decode_i32(&mut fields_itr)?; // ver 3 field
-
-            let historical_data_msg = ServerRspMsg::HistoricalData {
-                req_id,
-                bar: bar.clone(),
+            let bar_count = decode_i32(&mut fields_itr)?; // ver 3 field
+            let bar = BarData {
+                date,
+                open,
+                high,
+                low,
+                close,
+                volume,
+                bar_count,
+                average,
             };
+
+            let historical_data_msg = ServerRspMsg::HistoricalData { req_id, bar };
 
             self.send_queue.send(historical_data_msg).unwrap();
         }
