@@ -2791,7 +2791,7 @@ impl EClient {
         self.check_connected(NO_VALID_ID)?;
 
         if self.server_version() < MIN_SERVER_VER_TRADING_CLASS
-            && (!contract.trading_class.is_empty() || *&contract.con_id > 0)
+            && (!contract.trading_class.is_empty() || contract.con_id > 0)
         {
             let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                 req_id,
