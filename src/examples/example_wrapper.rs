@@ -92,7 +92,7 @@ impl ExampleWrapper {
             Some(ServerRspMsg::ExecutionDataEnd { req_id }) => info!("exec_details_end -- req_id: {}", req_id),
             Some(ServerRspMsg::CommissionReport { commission_report }) =>
                 info!("commission_report -- commission_report: {}", commission_report),
-            Some(i) => panic!("Received unhandled event! Exiting. Event: {}", i.to_string()),
+            Some(i) => panic!("Received unhandled event! Exiting. Event: {}", i),
             None => (),
         }
 
