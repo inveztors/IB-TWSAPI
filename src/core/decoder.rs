@@ -2660,7 +2660,7 @@ impl Decoder {
     ) -> Result<(), IBKRApiLibError> {
         if !read_date.is_empty() {
             let splitted = read_date.split_whitespace().collect::<Vec<&str>>();
-            if splitted.len() > 0 {
+            if !splitted.is_empty() {
                 if is_bond {
                     contract.maturity = splitted.get(0).unwrap_or_else(|| &"").to_string();
                 } else {
