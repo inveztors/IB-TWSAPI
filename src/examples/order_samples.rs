@@ -852,16 +852,12 @@ pub fn attach_adjustable_to_stop(
     adjust_stop_price: f64,
 ) -> Order {
     // Attached order is a conventional STP order in opposite direction
-    let mut order = stop(
-        (if parent.action == "BUY" {
-            "SELL"
-        } else {
-            "BUY"
-        })
-        .as_ref(),
-        parent.total_quantity,
-        attached_order_stop_price,
-    );
+    let action = if parent.action == "BUY" {
+        "SELL"
+    } else {
+        "BUY"
+    };
+    let mut order = stop(action, parent.total_quantity, attached_order_stop_price);
     order.parent_id = parent.order_id;
     // When trigger price is penetrated
     order.trigger_price = trigger_price;
@@ -882,16 +878,12 @@ pub fn attach_adjustable_to_stop_limit(
     adjusted_stop_limit_price: f64,
 ) -> Order {
     // Attached order is a conventional STP order
-    let mut order = stop(
-        (if parent.action == "BUY" {
-            "SELL"
-        } else {
-            "BUY"
-        })
-        .as_ref(),
-        parent.total_quantity,
-        attached_order_stop_price,
-    );
+    let action = if parent.action == "BUY" {
+        "SELL"
+    } else {
+        "BUY"
+    };
+    let mut order = stop(action, parent.total_quantity, attached_order_stop_price);
     order.parent_id = parent.order_id;
     // When trigger price is penetrated
     order.trigger_price = trigger_price;
@@ -915,16 +907,12 @@ pub fn attach_adjustable_to_trail(
     trail_unit: i32,
 ) -> Order {
     // Attached order is a conventional STP order
-    let mut order = stop(
-        (if parent.action == "BUY" {
-            "SELL"
-        } else {
-            "BUY"
-        })
-        .as_ref(),
-        parent.total_quantity,
-        attached_order_stop_price,
-    );
+    let action = if parent.action == "BUY" {
+        "SELL"
+    } else {
+        "BUY"
+    };
+    let mut order = stop(action, parent.total_quantity, attached_order_stop_price);
     order.parent_id = parent.order_id;
     // When trigger price is penetrated
     order.trigger_price = trigger_price;
