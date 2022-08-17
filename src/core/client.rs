@@ -599,11 +599,11 @@ impl EClient {
     /// Request tick by tick data
     ///
     /// # Arguments
-    /// * req_id	- unique identifier of the request.
-    /// * contract	- the contract for which tick-by-tick data is requested.
-    /// * tick_type	- TickByTickType data type: "Last", "AllLast", "BidAsk" or "MidPoint".
-    /// * number_of_ticks	- number of ticks.
-    /// * ignore_size	- ignore size flag.
+    /// * req_id    - unique identifier of the request.
+    /// * contract  - the contract for which tick-by-tick data is requested.
+    /// * tick_type - TickByTickType data type: "Last", "AllLast", "BidAsk" or "MidPoint".
+    /// * number_of_ticks   - number of ticks.
+    /// * ignore_size   - ignore size flag.
     pub fn req_tick_by_tick_data(
         &mut self,
         req_id: i32,
@@ -677,7 +677,7 @@ impl EClient {
     /// Cancel tick by tick data
     ///
     /// # Arguments
-    /// * req_id	- The identifier of the original request.
+    /// * req_id    - The identifier of the original request.
     pub fn cancel_tick_by_tick_data(&mut self, req_id: i32) -> Result<(), IBKRApiLibError> {
         self.check_connected(req_id)?;
 
@@ -2267,7 +2267,7 @@ impl EClient {
     /// * req_id - Request's identifier
     /// * account - If an account Id is provided, only the account's positions belonging to the
     ///             specified model will be delivered
-    /// * modelCode	- The code of the model's positions we are interested in.
+    /// * modelCode - The code of the model's positions we are interested in.
     pub fn req_positions_multi(
         &mut self,
         req_id: i32,
@@ -3223,11 +3223,11 @@ impl EClient {
     /// Returns the timestamp of earliest available historical data for a contract and data type.
     ///
     /// # Arguments
-    /// * req_id	- an identifier for the request
-    /// * contract	- contract object for which head timestamp is being requested
-    /// * what_to_show	- type of data for head timestamp - "BID", "ASK", "TRADES", etc
-    /// * use_rth	- use regular trading hours only, 1 for yes or 0 for no
-    /// * format_date	set to 1 to obtain the bars' time as yyyyMMdd HH:mm:ss, set to 2 to obtain it like system time format in seconds
+    /// * req_id    - an identifier for the request
+    /// * contract  - contract object for which head timestamp is being requested
+    /// * what_to_show  - type of data for head timestamp - "BID", "ASK", "TRADES", etc
+    /// * use_rth       - use regular trading hours only, 1 for yes or 0 for no
+    /// * format_date   - set to 1 to obtain the bars' time as yyyyMMdd HH:mm:ss, set to 2 to obtain it like system time format in seconds
     ///
     /// Note that formatData parameter affects intraday bars only
     /// 1-day bars always return with date in YYYYMMDD format
@@ -3406,8 +3406,8 @@ impl EClient {
     /// # Arguments
     /// * req_id - id of the request
     /// * contract - Contract object that is subject of query
-    /// * start_date_time,i.e.	"20170701 12:01:00". Uses TWS timezone specified at login.
-    /// * end_date_time,i.e.	"20170701 13:01:00". In TWS timezone. Exactly one of start time and end time has to be defined.
+    /// * start_date_time,i.e.  "20170701 12:01:00". Uses TWS timezone specified at login.
+    /// * end_date_time,i.e.    "20170701 13:01:00". In TWS timezone. Exactly one of start time and end time has to be defined.
     /// * number_of_ticks - Number of distinct data points. Max currently 1000 per request.
     /// * what_to_show - (Bid_Ask, Midpoint, Trades) Type of data requested.
     /// * use_rth - Data from regular trading hours (1), or all available hours (0)
@@ -3954,10 +3954,10 @@ impl EClient {
     /// * req_id - id of the request
     /// * con_id - contract id
     /// * provider_codes - a '+'-separated list of provider codes
-    /// * start_date_time	- marks the (exclusive) start of the date range. The format is yyyy-MM-dd HH:mm:ss.0
-    /// * end_date_time	- marks the (inclusive) end of the date range. The format is yyyy-MM-dd HH:mm:ss.0
-    /// * total_results	- the maximum number of headlines to fetch (1 - 300)
-    /// * historical_news_options	reserved for internal use. Should be defined as null.
+    /// * start_date_time   - marks the (exclusive) start of the date range. The format is yyyy-MM-dd HH:mm:ss.0
+    /// * end_date_time     - marks the (inclusive) end of the date range. The format is yyyy-MM-dd HH:mm:ss.0
+    /// * total_results     - the maximum number of headlines to fetch (1 - 300)
+    /// * historical_news_options   reserved for internal use. Should be defined as null.
     pub fn req_historical_news(
         &mut self,
         req_id: i32,
@@ -4094,7 +4094,7 @@ impl EClient {
     ///
     /// # Arguments
     /// * req_id - The requestId specified in subscribe_to_group_events().
-    /// * contract_info	is an encoded value designating a unique IB contract. Possible values include:
+    /// * contract_info is an encoded value designating a unique IB contract. Possible values include:
     /// 1. none - empty selection
     /// 2. contract_id - any non-combination contract. Examples 8314 for IBM SMART; 8314 for IBM ARCA
     /// 3. combo - if any combo is selected Note: This request from the API does not get a TWS response unless an error occurs.
