@@ -1891,9 +1891,8 @@ impl EClient {
             if !order.conditions.is_empty() {
                 for cond in &order.conditions {
                     msg.push_str(&make_field(&(cond.get_type() as i32))?);
-                    let vals = cond.make_fields()?;
-                    let vals_string = vals.iter().map(|val| val.clone()).collect::<String>();
-                    msg.push_str(vals_string.as_ref());
+                    let vals = cond.make_fields()?.join("");
+                    msg.push_str(&vals);
                 }
 
                 msg.push_str(&make_field(&order.conditions_ignore_rth)?);
