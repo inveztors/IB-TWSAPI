@@ -258,7 +258,7 @@ impl Display for Contract {
             self.combo_legs_descrip,
             self.combo_legs
                 .iter()
-                .map(|x| { format!("{}", x.to_string()) })
+                .map(ToString::to_string)
                 .collect::<Vec<String>>()
                 .join(","),
             self.delta_neutral_contract
@@ -469,7 +469,7 @@ impl Display for ContractDetails {
             self.market_rule_ids,
             self.sec_id_list
                 .iter()
-                .map(|x| { format!("{}", x.to_string()) })
+                .map(ToString::to_string)
                 .collect::<Vec<String>>()
                 .join(","),
             self.real_expiration_date,
