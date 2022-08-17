@@ -841,20 +841,20 @@ impl EClient {
             return Err(err);
         }
 
-        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if !contract.trading_class.is_empty() {
-                let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
-                    req_id,
-                    TwsError::UpdateTws.code().to_string(),
-                    format!(
-                        "{}{}",
-                        TwsError::UpdateTws.message(),
-                        " It does not support trading_class parameter in calculateImpliedVolatility."
-                    ),
-                ));
+        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS
+            && !contract.trading_class.is_empty()
+        {
+            let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
+                req_id,
+                TwsError::UpdateTws.code().to_string(),
+                format!(
+                    "{}{}",
+                    TwsError::UpdateTws.message(),
+                    " It does not support trading_class parameter in calculateImpliedVolatility."
+                ),
+            ));
 
-                return Err(err);
-            }
+            return Err(err);
         }
 
         let version = 3;
@@ -1010,9 +1010,10 @@ impl EClient {
     ) -> Result<(), IBKRApiLibError> {
         self.check_connected(req_id)?;
 
-        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if !contract.trading_class.is_empty() {
-                let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
+        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS
+            && !contract.trading_class.is_empty()
+        {
+            let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                     req_id,
                     TwsError::UpdateTws.code().to_string(),
                     format!(
@@ -1022,8 +1023,7 @@ impl EClient {
                     ),
                 ));
 
-                return Err(err);
-            }
+            return Err(err);
         }
 
         let version = 2;
@@ -1087,20 +1087,20 @@ impl EClient {
     ) -> Result<(), IBKRApiLibError> {
         self.check_connected(NO_VALID_ID)?;
 
-        if self.server_version() < MIN_SERVER_VER_DELTA_NEUTRAL {
-            if contract.delta_neutral_contract.is_some() {
-                let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
-                    NO_VALID_ID,
-                    TwsError::UpdateTws.code().to_string(),
-                    format!(
-                        "{}{}",
-                        TwsError::UpdateTws.message(),
-                        " It does not support delta-neutral orders."
-                    ),
-                ));
+        if self.server_version() < MIN_SERVER_VER_DELTA_NEUTRAL
+            && contract.delta_neutral_contract.is_some()
+        {
+            let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
+                NO_VALID_ID,
+                TwsError::UpdateTws.code().to_string(),
+                format!(
+                    "{}{}",
+                    TwsError::UpdateTws.message(),
+                    " It does not support delta-neutral orders."
+                ),
+            ));
 
-                return Err(err);
-            }
+            return Err(err);
         }
 
         if self.server_version() < MIN_SERVER_VER_SCALE_ORDERS2
@@ -2633,52 +2633,50 @@ impl EClient {
     ) -> Result<(), IBKRApiLibError> {
         self.check_connected(req_id)?;
 
-        if self.server_version() < MIN_SERVER_VER_SEC_ID_TYPE {
-            if !contract.sec_id_type.is_empty() || !contract.sec_id.is_empty() {
-                let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
-                    req_id,
-                    TwsError::UpdateTws.code().to_string(),
-                    format!(
-                        "{}{}",
-                        TwsError::UpdateTws.message(),
-                        " It does not support sec_id_type and secId parameters."
-                    ),
-                ));
+        if self.server_version() < MIN_SERVER_VER_SEC_ID_TYPE
+            && (!contract.sec_id_type.is_empty() || !contract.sec_id.is_empty())
+        {
+            let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
+                req_id,
+                TwsError::UpdateTws.code().to_string(),
+                format!(
+                    "{}{}",
+                    TwsError::UpdateTws.message(),
+                    " It does not support sec_id_type and secId parameters."
+                ),
+            ));
 
-                return Err(err);
-            }
+            return Err(err);
         }
 
-        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if !contract.trading_class.is_empty() {
-                let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
-                    req_id,
-                    TwsError::UpdateTws.code().to_string(),
-                    format!(
-                        "{}{}",
-                        TwsError::UpdateTws.message(),
-                        " It does not support trading_class parameter in req_contract_details."
-                    ),
-                ));
+        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS
+            && !contract.trading_class.is_empty()
+        {
+            let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
+                req_id,
+                TwsError::UpdateTws.code().to_string(),
+                format!(
+                    "{}{}",
+                    TwsError::UpdateTws.message(),
+                    " It does not support trading_class parameter in req_contract_details."
+                ),
+            ));
 
-                return Err(err);
-            }
+            return Err(err);
         }
 
-        if self.server_version() < MIN_SERVER_VER_LINKING {
-            if !contract.primary_exchange.is_empty() {
-                let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
-                    req_id,
-                    TwsError::UpdateTws.code().to_string(),
-                    format!(
-                        "{}{}",
-                        TwsError::UpdateTws.message(),
-                        " It does not support primary_exchange parameter in req_contract_details."
-                    ),
-                ));
+        if self.server_version() < MIN_SERVER_VER_LINKING && !contract.primary_exchange.is_empty() {
+            let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
+                req_id,
+                TwsError::UpdateTws.code().to_string(),
+                format!(
+                    "{}{}",
+                    TwsError::UpdateTws.message(),
+                    " It does not support primary_exchange parameter in req_contract_details."
+                ),
+            ));
 
-                return Err(err);
-            }
+            return Err(err);
         }
 
         let version = 8;
@@ -2793,20 +2791,20 @@ impl EClient {
     ) -> Result<(), IBKRApiLibError> {
         self.check_connected(NO_VALID_ID)?;
 
-        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if !contract.trading_class.is_empty() || *&contract.con_id > 0 {
-                let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
-                    req_id,
-                    TwsError::UpdateTws.code().to_string(),
-                    format!(
-                        "{}{}",
-                        TwsError::UpdateTws.message(),
-                        " It does not support con_id and trading_class parameters in req_mkt_depth."
-                    ),
-                ));
+        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS
+            && (!contract.trading_class.is_empty() || *&contract.con_id > 0)
+        {
+            let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
+                req_id,
+                TwsError::UpdateTws.code().to_string(),
+                format!(
+                    "{}{}",
+                    TwsError::UpdateTws.message(),
+                    " It does not support con_id and trading_class parameters in req_mkt_depth."
+                ),
+            ));
 
-                return Err(err);
-            }
+            return Err(err);
         }
 
         if self.server_version() < MIN_SERVER_VER_SMART_DEPTH && is_smart_depth {
@@ -3117,9 +3115,10 @@ impl EClient {
     ) -> Result<(), IBKRApiLibError> {
         self.check_connected(NO_VALID_ID)?;
 
-        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if !contract.trading_class.is_empty() || contract.con_id > 0 {
-                let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
+        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS
+            && (!contract.trading_class.is_empty() || contract.con_id > 0)
+        {
+            let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                     req_id,
                     TwsError::UpdateTws.code().to_string(),
                     format!(
@@ -3129,8 +3128,7 @@ impl EClient {
                     ),
                 ));
 
-                return Err(err);
-            }
+            return Err(err);
         }
 
         let version = 6;
@@ -3651,9 +3649,10 @@ impl EClient {
     ) -> Result<(), IBKRApiLibError> {
         self.check_connected(NO_VALID_ID)?;
 
-        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS {
-            if !contract.trading_class.is_empty() {
-                let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
+        if self.server_version() < MIN_SERVER_VER_TRADING_CLASS
+            && !contract.trading_class.is_empty()
+        {
+            let err = IBKRApiLibError::ApiError(TwsApiReportableError::new(
                     NO_VALID_ID,
                     TwsError::UpdateTws.code().to_string(),
                     format!(
@@ -3663,8 +3662,7 @@ impl EClient {
                     ),
                 ));
 
-                return Err(err);
-            }
+            return Err(err);
         }
 
         let version = 3;
