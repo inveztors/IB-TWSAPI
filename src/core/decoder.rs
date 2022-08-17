@@ -2662,17 +2662,17 @@ impl Decoder {
             let splitted = read_date.split_whitespace().collect::<Vec<&str>>();
             if !splitted.is_empty() {
                 if is_bond {
-                    contract.maturity = splitted.first().unwrap_or_else(|| &"").to_string();
+                    contract.maturity = splitted.first().unwrap_or(&"").to_string();
                 } else {
                     contract.contract.last_trade_date_or_contract_month =
-                        splitted.get(0).unwrap_or_else(|| &"").to_string();
+                        splitted.first().unwrap_or(&"").to_string();
                 }
             }
             if splitted.len() > 1 {
-                contract.last_trade_time = splitted.get(1).unwrap_or_else(|| &"").to_string();
+                contract.last_trade_time = splitted.get(1).unwrap_or(&"").to_string();
             }
             if is_bond && splitted.len() > 2 {
-                contract.time_zone_id = splitted.get(2).unwrap_or_else(|| &"").to_string();
+                contract.time_zone_id = splitted.get(2).unwrap_or(&"").to_string();
             }
         }
         Ok(())
