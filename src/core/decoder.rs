@@ -1670,20 +1670,17 @@ impl Decoder {
 
         let status = decode_string(&mut fields_itr)?;
 
-        let filled;
-        if self.server_version >= MIN_SERVER_VER_FRACTIONAL_POSITIONS {
-            filled = decode_f64(&mut fields_itr)?;
+        let filled = if self.server_version >= MIN_SERVER_VER_FRACTIONAL_POSITIONS {
+            decode_f64(&mut fields_itr)?
         } else {
-            filled = decode_i32(&mut fields_itr)? as f64;
-        }
+            decode_i32(&mut fields_itr)? as f64
+        };
 
-        let remaining;
-
-        if self.server_version >= MIN_SERVER_VER_FRACTIONAL_POSITIONS {
-            remaining = decode_f64(&mut fields_itr)?;
+        let remaining = if self.server_version >= MIN_SERVER_VER_FRACTIONAL_POSITIONS {
+            decode_f64(&mut fields_itr)?
         } else {
-            remaining = decode_i32(&mut fields_itr)? as f64;
-        }
+            decode_i32(&mut fields_itr)? as f64
+        };
 
         let avg_fill_price = decode_f64(&mut fields_itr)?;
 
@@ -1813,12 +1810,11 @@ impl Decoder {
             contract.trading_class = decode_string(&mut fields_itr)?;
         }
 
-        let position;
-        if self.server_version >= MIN_SERVER_VER_FRACTIONAL_POSITIONS {
-            position = decode_f64(&mut fields_itr)?;
+        let position = if self.server_version >= MIN_SERVER_VER_FRACTIONAL_POSITIONS {
+            decode_f64(&mut fields_itr)?
         } else {
-            position = decode_i32(&mut fields_itr)? as f64;
-        }
+            decode_i32(&mut fields_itr)? as f64
+        };
 
         let market_price = decode_f64(&mut fields_itr)?;
         let market_value = decode_f64(&mut fields_itr)?;
@@ -1875,12 +1871,11 @@ impl Decoder {
             contract.trading_class = decode_string(&mut fields_itr)?;
         }
 
-        let position;
-        if self.server_version >= MIN_SERVER_VER_FRACTIONAL_POSITIONS {
-            position = decode_f64(&mut fields_itr)?;
+        let position = if self.server_version >= MIN_SERVER_VER_FRACTIONAL_POSITIONS {
+            decode_f64(&mut fields_itr)?
         } else {
-            position = decode_i32(&mut fields_itr)? as f64;
-        }
+            decode_i32(&mut fields_itr)? as f64
+        };
 
         let mut avg_cost = 0.0;
         if version >= 3 {
