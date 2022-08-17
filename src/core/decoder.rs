@@ -2662,7 +2662,7 @@ impl Decoder {
             let splitted = read_date.split_whitespace().collect::<Vec<&str>>();
             if !splitted.is_empty() {
                 if is_bond {
-                    contract.maturity = splitted.get(0).unwrap_or_else(|| &"").to_string();
+                    contract.maturity = splitted.first().unwrap_or_else(|| &"").to_string();
                 } else {
                     contract.contract.last_trade_date_or_contract_month =
                         splitted.get(0).unwrap_or_else(|| &"").to_string();
