@@ -2710,7 +2710,7 @@ impl Decoder {
                         error!("Error receiving message.  Invalid size.  Disconnected.");
                         return Ok(());
                     } else {
-                        let fields = read_fields((&val).as_ref());
+                        let fields = read_fields(&val);
                         self.interpret(fields.as_slice())?;
                     }
                 }
