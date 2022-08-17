@@ -208,8 +208,8 @@ impl ExampleWrapper {
         info!("Placing order... {}", next_id);
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::limit_order("SELL", 1.0, 50.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::limit_order("SELL", 1.0, 50.0),
         )?;
 
         let mut fa_order_one_account = order_samples::market_order("BUY", 100.0);
@@ -217,11 +217,8 @@ impl ExampleWrapper {
         fa_order_one_account.account = "DU228250".to_string();
 
         next_id = self.next_order_id();
-        self.client.place_order(
-            next_id,
-            &contract_samples::usstock().borrow(),
-            fa_order_one_account.borrow(),
-        )?;
+        self.client
+            .place_order(next_id, &contract_samples::usstock(), &fa_order_one_account)?;
 
         let mut fa_order_group_eq = order_samples::limit_order("SELL", 200.0, 2000.0);
         fa_order_group_eq.fa_group = "Group_Equal_Quantity".to_string();
@@ -262,24 +259,21 @@ impl ExampleWrapper {
         model_order.model_code = "Technology".to_string(); // model for tech stocks first created in TWS
 
         next_id = self.next_order_id();
+        self.client
+            .place_order(next_id, &contract_samples::usstock(), &model_order)?;
+
+        next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            model_order.borrow(),
+            &contract_samples::option_at_box(),
+            &order_samples::block("BUY", 50.0, 20.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
             &contract_samples::option_at_box(),
-            order_samples::block("BUY", 50.0, 20.0).borrow(),
-        )?;
-
-        next_id = self.next_order_id();
-        self.client.place_order(
-            next_id,
-            &contract_samples::option_at_box(),
-            order_samples::box_top("SELL", 10.0).borrow(),
+            &order_samples::box_top("SELL", 10.0),
         )?;
 
         info!("Placing combo order...");
@@ -287,21 +281,21 @@ impl ExampleWrapper {
         self.client.place_order(
             next_id,
             &contract_samples::future_combo_contract(),
-            order_samples::combo_limit_order("SELL", 1.0, 1.0, false).borrow(),
+            &order_samples::combo_limit_order("SELL", 1.0, 1.0, false),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
             &contract_samples::stock_combo_contract(),
-            order_samples::combo_market_order("BUY", 1.0, true).borrow(),
+            &order_samples::combo_market_order("BUY", 1.0, true),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
             &contract_samples::option_combo_contract(),
-            order_samples::combo_market_order("BUY", 1.0, false).borrow(),
+            &order_samples::combo_market_order("BUY", 1.0, false),
         )?;
 
         next_id = self.next_order_id();
@@ -319,8 +313,8 @@ impl ExampleWrapper {
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::discretionary("SELL", 1.0, 45.0, 0.5).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::discretionary("SELL", 1.0, 45.0, 0.5),
         )?;
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@PROBLEM WITH SECURITY DEFINITION
@@ -329,56 +323,56 @@ impl ExampleWrapper {
         self.client.place_order(
             next_id,
             &contract_samples::option_at_box(),
-            order_samples::limit_if_touched("BUY", 1.0, 30.0, 34.0).borrow(),
+            &order_samples::limit_if_touched("BUY", 1.0, 30.0, 34.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::limit_on_close("SELL", 1.0, 34.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::limit_on_close("SELL", 1.0, 34.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::limit_on_open("BUY", 1.0, 35.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::limit_on_open("BUY", 1.0, 35.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::market_if_touched("BUY", 1.0, 30.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::market_if_touched("BUY", 1.0, 30.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::market_on_close("SELL", 1.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::market_on_close("SELL", 1.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::market_on_open("BUY", 1.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::market_on_open("BUY", 1.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::market_order("SELL", 1.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::market_order("SELL", 1.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::market_to_limit("BUY", 1.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::market_to_limit("BUY", 1.0),
         )?;
 
         // @@@@@@@@@@@@@@@@@@@@@@@@@@@@PROBLEM WITH SECURITY DEFINITIONS
@@ -387,27 +381,27 @@ impl ExampleWrapper {
         self.client.place_order(
             next_id,
             &contract_samples::option_at_ise(),
-            order_samples::midpoint_match("BUY", 1.0).borrow(),
+            &order_samples::midpoint_match("BUY", 1.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::market_to_limit("BUY", 1.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::market_to_limit("BUY", 1.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::stop("SELL", 1.0, 34.4).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::stop("SELL", 1.0, 34.4),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
+            &contract_samples::usstock(),
             &order_samples::stop_limit("BUY", 1.0, 35.0, 33.0),
         )?;
 
@@ -415,28 +409,28 @@ impl ExampleWrapper {
         self.client.place_order(
             next_id,
             &contract_samples::simple_future(),
-            order_samples::stop_with_protection("SELL", 1.0, 45.0).borrow(),
+            &order_samples::stop_with_protection("SELL", 1.0, 45.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::sweep_to_fill("BUY", 1.0, 35.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::sweep_to_fill("BUY", 1.0, 35.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::trailing_stop("SELL", 1.0, 0.5, 30.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::trailing_stop("SELL", 1.0, 0.5, 30.0),
         )?;
 
         next_id = self.next_order_id();
         self.client.place_order(
             next_id,
-            &contract_samples::usstock().borrow(),
-            order_samples::trailing_stop_limit("BUY", 1.0, 2.0, 5.0, 50.0).borrow(),
+            &contract_samples::usstock(),
+            &order_samples::trailing_stop_limit("BUY", 1.0, 2.0, 5.0, 50.0),
         )?;
 
         next_id = self.next_order_id();
@@ -520,20 +514,20 @@ impl ExampleWrapper {
 
         self.client.place_order(
             bracket.0.order_id,
-            contract_samples::european_stock().borrow(),
-            bracket.0.borrow(),
+            &contract_samples::european_stock(),
+            &bracket.0,
         )?;
         self.next_order_id();
         self.client.place_order(
             bracket.1.order_id,
-            contract_samples::european_stock().borrow(),
-            bracket.1.borrow(),
+            &contract_samples::european_stock(),
+            &bracket.1,
         )?;
         self.next_order_id();
         self.client.place_order(
             bracket.2.order_id,
-            contract_samples::european_stock().borrow(),
-            bracket.2.borrow(),
+            &contract_samples::european_stock(),
+            &bracket.2,
         )?;
         self.next_order_id();
 
