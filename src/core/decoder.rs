@@ -91,7 +91,7 @@ pub fn decode_f64_show_unset(iter: &mut Iter<String>) -> Result<f64, IBKRApiLibE
 pub fn decode_string(iter: &mut Iter<String>) -> Result<String, IBKRApiLibError> {
     let next = iter.next();
     //info!("{:?}", next);
-    let val = next.unwrap().parse().unwrap_or("".to_string());
+    let val = next.unwrap().parse().unwrap_or_default();
     Ok(val)
 }
 
