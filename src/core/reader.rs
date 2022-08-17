@@ -110,11 +110,9 @@ impl Reader {
             if self.disconnect_requested.load(Ordering::Acquire) || !self.is_connected {
                 return;
             }
-            let result = self.process_reader_msgs();
-            if !result.is_err() {
-                continue;
+            if let Err(e) = self.process_reader_msgs() {
+                error!("{:?}", e);
             }
-            error!("{:?}", result);
         }
     }
 }
